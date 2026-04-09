@@ -1,0 +1,193 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: blogs
+    // Document ID: auto-generated
+    // Fields:
+    //   - title: string (required, max 200 chars)
+    //   - content: string (required, max 50000 chars)
+    //   - excerpt: string (optional, max 500 chars)
+    //   - authorId: string (required, immutable)
+    //   - authorName: string (optional, max 100 chars)
+    //   - createdAt: timestamp (required, immutable)
+    //   - imageUrl: string (optional, max 1000 chars)
+    //   - category: string (optional, max 50 chars)
+    //   - language: string (required, 'en' or 'np')
+    //
+    // Collection: services
+    // Document ID: auto-generated
+    // Fields:
+    //   - title: string (required, max 200 chars)
+    //   - description: string (required, max 5000 chars)
+    //   - benefits: list of strings (optional, max 20 items, max 200 chars each)
+    //   - imageUrl: string (optional, max 1000 chars)
+    //   - language: string (required, 'en' or 'np')
+    //   - createdAt: timestamp (optional, immutable)
+    //
+    // Collection: contacts
+    // Document ID: auto-generated
+    // Fields:
+    //   - name: string (required, max 100 chars)
+    //   - email: string (optional, max 100 chars)
+    //   - phone: string (optional, max 50 chars)
+    //   - message: string (required, max 2000 chars)
+    //   - createdAt: timestamp (required, immutable)
+    //   - status: string (required, 'new' or 'read')
+    //
+    // Collection: users
+    // Document ID: uid
+    // Fields:
+    //   - email: string (required)
+    //   - role: string (required, 'admin')
+    //   - createdAt: timestamp (optional)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        (request.auth.token.email == "payas4goog@gmail.com" && request.auth.token.email_verified == true) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function isValidString(field, minLen, maxLen) {
+      return field in request.resource.data && 
+             request.resource.data[field] is string && 
+             request.resource.data[field].size() >= minLen && 
+             request.resource.data[field].size() <= maxLen;
+    }
+
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) || 
+             (request.resource.data[field] is string && 
+              request.resource.data[field].size() >= minLen && 
+              request.resource.data[field].size() <= maxLen);
+    }
+
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidBlog() {
+      return hasOnlyAllowedFields(['title', 'content', 'excerpt', 'authorId', 'authorName', 'createdAt', 'imageUrl', 'category', 'language']) &&
+             hasRequiredFields(['title', 'content', 'authorId', 'createdAt', 'language']) &&
+             isValidString('title', 1, 200) &&
+             isValidString('content', 1, 50000) &&
+             isValidOptionalString('excerpt', 0, 500) &&
+             request.resource.data.authorId == request.auth.uid &&
+             isValidOptionalString('authorName', 0, 100) &&
+             request.resource.data.createdAt is timestamp &&
+             isValidOptionalString('imageUrl', 0, 1000) &&
+             isValidOptionalString('category', 0, 50) &&
+             request.resource.data.language in ['en', 'np'];
+    }
+
+    function isValidBlogUpdate() {
+      return hasOnlyAllowedFields(['title', 'content', 'excerpt', 'authorId', 'authorName', 'createdAt', 'imageUrl', 'category', 'language']) &&
+             isValidString('title', 1, 200) &&
+             isValidString('content', 1, 50000) &&
+             isValidOptionalString('excerpt', 0, 500) &&
+             isValidOptionalString('authorName', 0, 100) &&
+             isValidOptionalString('imageUrl', 0, 1000) &&
+             isValidOptionalString('category', 0, 50) &&
+             request.resource.data.language in ['en', 'np'] &&
+             areImmutableFieldsUnchanged(['authorId', 'createdAt']);
+    }
+
+    function isValidService() {
+      return hasOnlyAllowedFields(['title', 'description', 'benefits', 'imageUrl', 'language', 'createdAt']) &&
+             hasRequiredFields(['title', 'description', 'language']) &&
+             isValidString('title', 1, 200) &&
+             isValidString('description', 1, 5000) &&
+             (!( 'benefits' in request.resource.data ) || (request.resource.data.benefits is list && request.resource.data.benefits.size() <= 20)) &&
+             isValidOptionalString('imageUrl', 0, 1000) &&
+             request.resource.data.language in ['en', 'np'] &&
+             (!( 'createdAt' in request.resource.data ) || request.resource.data.createdAt is timestamp);
+    }
+
+    function isValidServiceUpdate() {
+      return isValidService() && areImmutableFieldsUnchanged(['createdAt']);
+    }
+
+    function isValidContact() {
+      return hasOnlyAllowedFields(['name', 'email', 'phone', 'message', 'createdAt', 'status']) &&
+             hasRequiredFields(['name', 'message', 'createdAt', 'status']) &&
+             isValidString('name', 1, 100) &&
+             isValidOptionalString('email', 0, 100) &&
+             isValidOptionalString('phone', 0, 50) &&
+             isValidString('message', 1, 2000) &&
+             request.resource.data.createdAt is timestamp &&
+             request.resource.data.status in ['new', 'read'];
+    }
+
+    function isValidContactUpdate() {
+      return isValidContact() && areImmutableFieldsUnchanged(['createdAt']);
+    }
+
+    function isValidUser() {
+      return hasOnlyAllowedFields(['email', 'role', 'createdAt']) &&
+             hasRequiredFields(['email', 'role']) &&
+             isValidString('email', 1, 100) &&
+             request.resource.data.role == 'admin' &&
+             (!( 'createdAt' in request.resource.data ) || request.resource.data.createdAt is timestamp);
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidBlog();
+      allow update: if isAdmin() && isValidBlogUpdate();
+      allow delete: if isAdmin();
+    }
+
+    match /services/{serviceId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidService();
+      allow update: if isAdmin() && isValidServiceUpdate();
+      allow delete: if isAdmin();
+    }
+
+    match /contacts/{contactId} {
+      allow read: if isAdmin();
+      allow create: if isValidContact();
+      allow update: if isAdmin() && isValidContactUpdate();
+      allow delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin() && isValidUser() && request.auth.uid == userId;
+      allow update: if isAdmin() && isValidUser() && areImmutableFieldsUnchanged(['role', 'createdAt']);
+      allow delete: if isAdmin();
+    }
+  }
+}

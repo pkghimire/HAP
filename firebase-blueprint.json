@@ -1,0 +1,78 @@
+{
+  "entities": {
+    "Blog": {
+      "title": "Blog",
+      "description": "A blog post about Vedic rituals, spirituality, etc.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the blog post" },
+        "content": { "type": "string", "description": "Markdown or HTML content" },
+        "excerpt": { "type": "string", "description": "Short summary" },
+        "authorId": { "type": "string", "description": "UID of the admin who created it" },
+        "authorName": { "type": "string", "description": "Name of the author" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "imageUrl": { "type": "string", "description": "Cover image URL" },
+        "category": { "type": "string", "description": "Category of the post" },
+        "language": { "type": "string", "enum": ["en", "np"] }
+      },
+      "required": ["title", "content", "authorId", "createdAt", "language"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "A Vedic service offered by the organization",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "benefits": { "type": "array", "items": { "type": "string" } },
+        "imageUrl": { "type": "string" },
+        "language": { "type": "string", "enum": ["en", "np"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "description", "language"]
+    },
+    "Contact": {
+      "title": "Contact",
+      "description": "A contact form submission",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["new", "read"] }
+      },
+      "required": ["name", "message", "createdAt", "status"]
+    },
+    "User": {
+      "title": "User",
+      "description": "Admin user profile",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/blogs/{blogId}": {
+      "schema": { "$ref": "#/entities/Blog" },
+      "description": "Collection of blog posts"
+    },
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/Service" },
+      "description": "Collection of services offered"
+    },
+    "/contacts/{contactId}": {
+      "schema": { "$ref": "#/entities/Contact" },
+      "description": "Collection of contact form submissions"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Collection of user profiles (admins)"
+    }
+  }
+}
