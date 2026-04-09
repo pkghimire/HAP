@@ -46,7 +46,7 @@ export default function Blog() {
     <div className="container mx-auto px-4 py-12 max-w-6xl">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-slate-900 mb-4">{t('blog')}</h1>
-        <div className="w-24 h-1 bg-orange-500 mx-auto rounded-full" />
+        <div className="w-24 h-1 bg-primary-500 mx-auto rounded-full" />
       </div>
 
       {loading ? (
@@ -64,7 +64,7 @@ export default function Blog() {
               )}
               <CardHeader>
                 {blog.category && (
-                  <div className="text-xs font-semibold text-orange-600 uppercase tracking-wider mb-2">
+                  <div className="text-xs font-semibold text-primary-600 uppercase tracking-wider mb-2">
                     {blog.category}
                   </div>
                 )}
@@ -76,7 +76,7 @@ export default function Blog() {
                 </CardDescription>
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
                   <span className="text-sm text-slate-500">{blog.authorName || 'Admin'}</span>
-                  <Link to={`/blog/${blog.id}`} className="text-sm font-medium text-orange-600 hover:underline">
+                  <Link to={`/blog/${blog.id}`} className="text-sm font-medium text-primary-600 hover:underline">
                     {t('read_more')}
                   </Link>
                 </div>

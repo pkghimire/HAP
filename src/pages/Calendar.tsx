@@ -37,31 +37,31 @@ export default function Calendar() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
-                <MapPin className="h-5 w-5 text-orange-600" />
+                <MapPin className="h-5 w-5 text-primary-600" />
                 {t('location')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-2">
-                <label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-orange-50 transition-colors">
+                <label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-primary-50 transition-colors">
                   <input 
                     type="radio" 
                     name="location" 
                     value="nepal" 
                     checked={location === 'nepal'} 
                     onChange={(e) => setLocation(e.target.value)}
-                    className="text-orange-600 focus:ring-orange-600"
+                    className="text-primary-600 focus:ring-primary-600"
                   />
                   <span>{t('nepal')} (NPT)</span>
                 </label>
-                <label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-orange-50 transition-colors">
+                <label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-primary-50 transition-colors">
                   <input 
                     type="radio" 
                     name="location" 
                     value="global" 
                     checked={location === 'global'} 
                     onChange={(e) => setLocation(e.target.value)}
-                    className="text-orange-600 focus:ring-orange-600"
+                    className="text-primary-600 focus:ring-primary-600"
                   />
                   <span>{t('global')} (Local Time)</span>
                 </label>
@@ -71,8 +71,8 @@ export default function Calendar() {
         </div>
 
         <div className="md:col-span-2">
-          <Card className="border-orange-200 shadow-md overflow-hidden">
-            <div className="bg-orange-600 text-white p-8 text-center">
+          <Card className="border-primary-200 shadow-md overflow-hidden">
+            <div className="bg-primary-600 text-white p-8 text-center">
               <CalendarIcon className="h-12 w-12 mx-auto mb-4 opacity-80" />
               <h2 className="text-2xl font-medium opacity-90 mb-2">{t('today')}</h2>
               {nepaliDate ? (
@@ -90,13 +90,13 @@ export default function Calendar() {
             </div>
             <CardContent className="p-8">
               <div className="grid grid-cols-2 gap-8 text-center">
-                <div className="p-4 bg-orange-50 rounded-xl">
-                  <div className="text-sm text-orange-600 font-semibold uppercase tracking-wider mb-1">{t('tithi')}</div>
+                <div className="p-4 bg-primary-50 rounded-xl">
+                  <div className="text-sm text-primary-600 font-semibold uppercase tracking-wider mb-1">{t('tithi')}</div>
                   <div className="text-2xl font-medium text-slate-800">Pratipada</div>
                   <div className="text-xs text-slate-500 mt-1">(Calculated)</div>
                 </div>
-                <div className="p-4 bg-orange-50 rounded-xl">
-                  <div className="text-sm text-orange-600 font-semibold uppercase tracking-wider mb-1">{t('gate')}</div>
+                <div className="p-4 bg-primary-50 rounded-xl">
+                  <div className="text-sm text-primary-600 font-semibold uppercase tracking-wider mb-1">{t('gate')}</div>
                   <div className="text-2xl font-medium text-slate-800">{nepaliDate?.getDate()}</div>
                   <div className="text-xs text-slate-500 mt-1">Gatē</div>
                 </div>

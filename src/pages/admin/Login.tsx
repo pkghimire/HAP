@@ -28,7 +28,7 @@ export default function AdminLogin() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Admin Login</CardTitle>
-          <CardDescription>Sign in to access the Himavat Arsa Prjna dashboard</CardDescription>
+          <CardDescription>Sign in to access the Himavat Arsa Prajna dashboard</CardDescription>
         </CardHeader>
         <CardContent>
           {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-md text-sm">{error}</div>}

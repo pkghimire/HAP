@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import './i18n';
+import { SettingsProvider } from './contexts/SettingsContext';
 
 // Layouts
 import PublicLayout from './components/layout/PublicLayout';
@@ -28,6 +29,7 @@ import AdminDashboard from './pages/admin/Dashboard';
 import AdminBlogs from './pages/admin/Blogs';
 import AdminServices from './pages/admin/Services';
 import AdminContacts from './pages/admin/Contacts';
+import AdminSettings from './pages/admin/Settings';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null);
@@ -49,38 +51,41 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<PublicLayout />}>
-          <Route index element={<Home />} />
-          <Route path="services" element={<Services />} />
-          <Route path="blog" element={<Blog />} />
-          <Route path="blog/:id" element={<BlogDetail />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="calendar" element={<Calendar />} />
-        </Route>
+    <SettingsProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<PublicLayout />}>
+            <Route index element={<Home />} />
+            <Route path="services" element={<Services />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="blog/:id" element={<BlogDetail />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="calendar" element={<Calendar />} />
+          </Route>
 
-        {/* Admin Login */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+          {/* Admin Login */}
+          <Route path="/admin/login" element={<AdminLogin />} />
 
-        {/* Protected Admin Routes */}
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<AdminDashboard />} />
-          <Route path="blogs" element={<AdminBlogs />} />
-          <Route path="services" element={<AdminServices />} />
-          <Route path="contacts" element={<AdminContacts />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          {/* Protected Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<AdminDashboard />} />
+            <Route path="blogs" element={<AdminBlogs />} />
+            <Route path="services" element={<AdminServices />} />
+            <Route path="contacts" element={<AdminContacts />} />
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </SettingsProvider>
   );
 }
 

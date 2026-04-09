@@ -51,16 +51,16 @@ export default function Contact() {
     <div className="container mx-auto px-4 py-12 max-w-6xl">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-slate-900 mb-4">{t('contact_us')}</h1>
-        <div className="w-24 h-1 bg-orange-500 mx-auto rounded-full" />
+        <div className="w-24 h-1 bg-primary-500 mx-auto rounded-full" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Contact Info & Map */}
         <div className="space-y-8">
-          <Card className="border-orange-100 bg-orange-50/50">
+          <Card className="border-primary-100 bg-primary-50/50">
             <CardContent className="p-8 space-y-6">
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-white rounded-full shadow-sm text-orange-600">
+                <div className="p-3 bg-white rounded-full shadow-sm text-primary-600">
                   <MapPin className="h-6 w-6" />
                 </div>
                 <div>
@@ -69,7 +69,7 @@ export default function Contact() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-white rounded-full shadow-sm text-orange-600">
+                <div className="p-3 bg-white rounded-full shadow-sm text-primary-600">
                   <Phone className="h-6 w-6" />
                 </div>
                 <div>
@@ -78,7 +78,7 @@ export default function Contact() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-white rounded-full shadow-sm text-orange-600">
+                <div className="p-3 bg-white rounded-full shadow-sm text-primary-600">
                   <Mail className="h-6 w-6" />
                 </div>
                 <div>

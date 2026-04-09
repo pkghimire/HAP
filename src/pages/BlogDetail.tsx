@@ -63,13 +63,13 @@ export default function BlogDetail() {
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
-      <Button asChild variant="ghost" className="mb-8 -ml-4 text-slate-500 hover:text-orange-600">
+      <Button asChild variant="ghost" className="mb-8 -ml-4 text-slate-500 hover:text-primary-600">
         <Link to="/blog">
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blogs
         </Link>
       </Button>
 
-      <article className="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden">
+      <article className="bg-white rounded-2xl shadow-sm border border-primary-100 overflow-hidden">
         {blog.imageUrl && (
           <div className="w-full h-64 md:h-96 bg-slate-100">
             <img 
@@ -83,7 +83,7 @@ export default function BlogDetail() {
         
         <div className="p-8 md:p-12">
           {blog.category && (
-            <div className="text-sm font-semibold text-orange-600 uppercase tracking-wider mb-4">
+            <div className="text-sm font-semibold text-primary-600 uppercase tracking-wider mb-4">
               {blog.category}
             </div>
           )}

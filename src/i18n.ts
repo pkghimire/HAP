@@ -38,7 +38,7 @@ const resources = {
       "location": "Location",
       "nepal": "Nepal",
       "global": "Global",
-      "footer_text": "© 2026 Himavat Arsa Prjna. All rights reserved."
+      "footer_text": "© 2026 Himavat Arsa Prajna. All rights reserved."
     }
   },
   np: {

@@ -59,7 +59,7 @@ export default function AdminContacts() {
           <div className="text-slate-500">No contact submissions found.</div>
         ) : (
           contacts.map(contact => (
-            <Card key={contact.id} className={contact.status === 'new' ? 'border-orange-300 bg-orange-50/30' : ''}>
+            <Card key={contact.id} className={contact.status === 'new' ? 'border-primary-300 bg-primary-50/30' : ''}>
               <CardHeader className="pb-2">
                 <div className="flex justify-between items-start">
                   <div>

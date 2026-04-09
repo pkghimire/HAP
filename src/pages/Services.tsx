@@ -41,7 +41,7 @@ export default function Services() {
     <div className="container mx-auto px-4 py-12 max-w-6xl">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-slate-900 mb-4">{t('our_services')}</h1>
-        <div className="w-24 h-1 bg-orange-500 mx-auto rounded-full" />
+        <div className="w-24 h-1 bg-primary-500 mx-auto rounded-full" />
       </div>
 
       {loading ? (

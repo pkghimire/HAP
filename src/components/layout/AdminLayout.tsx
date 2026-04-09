@@ -1,7 +1,7 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/button';
-import { LayoutDashboard, FileText, Briefcase, Users, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, Briefcase, Users, LogOut, Settings } from 'lucide-react';
 import { auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 
@@ -20,6 +20,7 @@ export default function AdminLayout() {
     { name: 'Blogs', path: '/admin/blogs', icon: FileText },
     { name: 'Services', path: '/admin/services', icon: Briefcase },
     { name: 'Contacts', path: '/admin/contacts', icon: Users },
+    { name: 'Settings', path: '/admin/settings', icon: Settings },
   ];
 
   return (
@@ -38,7 +39,7 @@ export default function AdminLayout() {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
-                  isActive ? 'bg-orange-600 text-white' : 'hover:bg-slate-800 hover:text-white'
+                  isActive ? 'bg-primary-600 text-white' : 'hover:bg-slate-800 hover:text-white'
                 }`}
               >
                 <Icon className="h-5 w-5" />

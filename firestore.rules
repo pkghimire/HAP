@@ -189,5 +189,10 @@ service cloud.firestore {
       allow update: if isAdmin() && isValidUser() && areImmutableFieldsUnchanged(['role', 'createdAt']);
       allow delete: if isAdmin();
     }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }
